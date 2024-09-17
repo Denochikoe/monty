@@ -9,7 +9,9 @@
  *
  * Return: 0 on success, or -1 if the opcode is not found.
  */
-int execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char *arg)
+int execute_opcode(stack_t **stack,
+	       	char *opcode, unsigned int line_number,
+	       	char *arg)
 {
 	instruction_t instructions[] = {
 		{"pall", pall},
