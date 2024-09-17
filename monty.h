@@ -37,6 +37,8 @@ typedef struct instruction_s
 
 void push(stack_t **stack, unsigned int line_number, char *arg);
 void pall(stack_t **stack, unsigned int line_number);
-void execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char *arg);
+int execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char *arg);
 int custom_getline(char **lineptr, size_t *n, FILE *stream);
+void free_stack(stack_t **stack);
+int is_integer(char *str);
 #endif /* MONTY_H */

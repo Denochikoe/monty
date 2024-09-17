@@ -78,17 +78,24 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    while (custom_getline(&line, &len, file) != -1)  /* Using custom_getline */
+    while (custom_getline(&line, &len, file) != -1)
     {
         line_number++;
         opcode = strtok(line, " \t\n");
-        if (opcode == NULL || opcode[0] == '#') /* Ignore comments or empty lines */
+        if (opcode == NULL || opcode[0] == '#')
             continue;
         arg = strtok(NULL, " \t\n");
-        execute_opcode(&stack, opcode, line_number, arg);
+	if (execute_opcode(&stack, opcode, line_number, arg) != 0)
+	{
+		free(line);
+		free_stack(&stack);
+		fclose(file);
+		return (EXIT_FAILURE);
+	}
     }
 
     free(line);
+    free_stack(&stack);
     fclose(file);
     return (EXIT_SUCCESS);
 }

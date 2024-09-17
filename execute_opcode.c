@@ -1,39 +1,32 @@
 #include "monty.h"
 
-/**
- * execute_opcode - Executes an opcode by calling the corresponding function.
- * @stack: Double pointer to the head of the stack.
- * @opcode: The opcode to execute.
- * @line_number: The current line number in the bytecode file.
- * @arg: The argument (if any) for the opcode.
- *
- * Description: If the opcode is unknown, an error message is printed,
- * and the program exits with EXIT_FAILURE.
- */
-void execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char *arg)
+int execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char *arg)
 {
     instruction_t instructions[] = {
-        {"push", NULL},
         {"pall", pall},
+        /* Add other non-arg opcodes here */
         {NULL, NULL}
     };
     int i;
 
+    /* Special handling for 'push' which has an additional argument */
     if (strcmp(opcode, "push") == 0)
     {
-        push(stack, line_number, arg);
-        return;
+        push(stack, line_number, arg);  /* Pass the extra 'arg' argument */
+        return 0;
     }
 
-    for (i = 0; instructions[i].opcode != NULL; i++)
+    /* Handle all other opcodes */
+    for (i = 0; instructions[i].opcode; i++)
     {
         if (strcmp(opcode, instructions[i].opcode) == 0)
         {
-            instructions[i].f(stack, line_number);
-            return;
+            instructions[i].f(stack, line_number);  /* Call without 'arg' */
+            return 0;
         }
     }
 
+    /* If opcode is not found */
     fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
-    exit(EXIT_FAILURE);
+    return (-1);
 }
