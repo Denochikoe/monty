@@ -24,6 +24,7 @@ int execute_opcode(stack_t **stack
 		{"mod", _mod},
 		{"pchar", pchar},
 		{"pstr", pstr},
+		{"rotl", rotl},
 		{"nop", nop},
 		{NULL, NULL}
 	};
