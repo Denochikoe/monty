@@ -11,7 +11,7 @@ int is_integer(char *str)
 	int i = 0;
 
 	if (!str || *str == '\0')
-	       	return (0);
+		return (0);
 
 	if (str[0] == '-' || str[0] == '+')
 		i++;
