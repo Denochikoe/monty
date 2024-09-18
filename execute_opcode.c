@@ -19,6 +19,7 @@ int execute_opcode(stack_t **stack
 		{"swap", swap},
 		{"add", add},
 		{"sub", sub},
+		{"div", _div},
 		{"nop", nop},
 		{NULL, NULL}
 	};
