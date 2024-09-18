@@ -14,7 +14,7 @@ int execute_opcode(stack_t **stack
 {
 	instruction_t instructions[] = {
 		{"pall", pall},
-		/* Add other non-arg opcodes here */
+		{"pint", pint},
 		{NULL, NULL}
 	};
 	int i;

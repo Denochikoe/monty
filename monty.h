@@ -43,4 +43,5 @@ void free_stack(stack_t **stack);
 int is_integer(char *str);
 int process_file(FILE *file);
 void handle_error(stack_t **stack, char *line, FILE *file);
+void pint(stack_t **stack, unsigned int line_number);
 #endif /* MONTY_H */
