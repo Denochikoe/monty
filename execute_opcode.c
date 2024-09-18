@@ -17,6 +17,7 @@ int execute_opcode(stack_t **stack
 		{"pint", pint},
 		{"pop", pop},
 		{"swap", swap},
+		{"add", add},
 		{NULL, NULL}
 	};
 	int i;
