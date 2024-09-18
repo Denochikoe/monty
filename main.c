@@ -19,7 +19,7 @@ int custom_getline(char **lineptr, size_t *n, FILE *stream)
 		*n = 128;
 		*lineptr = malloc(*n);
 		if (*lineptr == NULL)
-			return -1;
+			return (-1);
 	}
 
 	buf = *lineptr;
@@ -31,7 +31,7 @@ int custom_getline(char **lineptr, size_t *n, FILE *stream)
 			*n *= 2;
 			buf = realloc(buf, *n);
 			if (buf == NULL)
-				return -1;
+				return (-1);
 			*lineptr = buf;
 		}
 		buf[i++] = c;
@@ -40,10 +40,10 @@ int custom_getline(char **lineptr, size_t *n, FILE *stream)
 	}
 
 	if (i == 0 && c == EOF)
-		return -1;
+		return (-1);
 
 	buf[i] = '\0';
-	return i;
+	return (i);
 }
 
 /**

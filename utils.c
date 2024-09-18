@@ -8,19 +8,18 @@
  */
 int is_integer(char *str)
 {
-    int i = 0;
+	int i = 0;
 
-    if (!str || *str == '\0')  /* Check if string is NULL or empty */
+	if (!str || *str == '\0')
         return (0);
 
-    if (str[0] == '-' || str[0] == '+')  /* Handle negative or positive numbers */
-        i++;
+	if (str[0] == '-' || str[0] == '+')
+		i++;
 
-    for (; str[i] != '\0'; i++)
-    {
-        if (!isdigit(str[i]))
-            return (0);
-    }
-
-    return (1);
+	for (; str[i] != '\0'; i++)
+	{
+		if (!isdigit(str[i]))
+			return (0);
+	}
+	return (1);
 }
