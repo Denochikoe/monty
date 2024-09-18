@@ -9,28 +9,13 @@
  */
 void pall(stack_t **stack, unsigned int line_number)
 {
-	stack_t *current = *stack;
-	stack_t *tail;
+	stack_t *temp = *stack;
 
 	(void)line_number;
 
-	if (mode == 0)
+	while (temp)
 	{
-		while (current)
-		{
-			printf("%d\n", current->n);
-			current = current->next;
-		}
-	}
-	else
-	{
-		tail = *stack;
-		while (tail && tail->next)
-			tail = tail->next;
-		while (tail)
-		{
-			printf("%d\n", tail->n);
-			tail = tail->prev;
-		}
+		printf("%d\n", temp->n);
+		temp = temp->next;
 	}
 }

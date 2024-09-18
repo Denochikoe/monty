@@ -13,7 +13,7 @@ void push(stack_t **stack, unsigned int line_number, char *arg)
 {
 	stack_t *new_node;
 	int num;
-	stack_t *temp;
+	stack_t *tail = *stack;
 
 	if (!arg || !is_integer(arg))
 	{
@@ -21,7 +21,6 @@ void push(stack_t **stack, unsigned int line_number, char *arg)
 		free_stack(stack);
 		exit(EXIT_FAILURE);
 	}
-	num = atoi(arg);
 	new_node = malloc(sizeof(stack_t));
 	if (!new_node)
 	{
@@ -30,29 +29,28 @@ void push(stack_t **stack, unsigned int line_number, char *arg)
 		exit(EXIT_FAILURE);
 	}
 
+	num = atoi(arg);
 	new_node->n = num;
 	new_node->prev = NULL;
 	new_node->next = NULL;
 	if (mode == 0)
 	{
+		if (*stack) (*stack)->prev = new_node;
 		new_node->next = *stack;
-		if (*stack)
-			(*stack)->prev = new_node;
 		*stack = new_node;
 	}
 	else
 	{
-		if (*stack == NULL)
+		if (!*stack)
 		{
 			*stack = new_node;
 		}
 		else
 		{
-			temp = *stack;
-			while (temp->next)
-				temp = temp->next;
-			temp->next = new_node;
-			new_node->prev = temp;
+			while (tail->next)
+				tail = tail->next;
+			tail->next = new_node;
+			new_node->prev = tail;
 		}
 	}
 }
