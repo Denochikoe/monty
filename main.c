@@ -47,57 +47,77 @@ int custom_getline(char **lineptr, size_t *n, FILE *stream)
 }
 
 /**
- * main - Entry point for the Monty interpreter.
- * @argc: Number of arguments passed to the program.
- * @argv: Array of arguments (including the file name).
- *
- * Description: The Monty interpreter reads a bytecode file and executes
- * the specified opcodes. If the file cannot be opened, or if an error
- * occurs while reading, appropriate error messages are printed.
- * Return: EXIT_SUCCESS on success, or EXIT_FAILURE on error.
+ * handle_error - Handles cleanup during error conditions
+ * @stack: Pointer to the stack
+ * @line: Pointer to the line buffer
+ * @file: File pointer to close
  */
-int main(int argc, char **argv)
+void handle_error(stack_t **stack, char *line, FILE *file)
 {
-	FILE *file;
+	free(line);
+	free_stack(stack);
+	fclose(file);
+}
+
+/**
+ * process_file - Processes the bytecode file line by line
+ * @file: Pointer to the open file to be read
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on error
+ */
+int process_file(FILE *file)
+{
 	char *line = NULL;
 	size_t len = 0;
 	unsigned int line_number = 0;
 	stack_t *stack = NULL;
 	char *opcode, *arg;
 
-	if (argc != 2)
-	{
-		fprintf(stderr, "USAGE: monty file\n");
-		exit(EXIT_FAILURE);
-	}
-
-	file = fopen(argv[1], "r");
-	if (!file)
-	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-			exit(EXIT_FAILURE);
-	}
-
 	while (custom_getline(&line, &len, file) != -1)
 	{
 		line_number++;
 		opcode = strtok(line, " \t\n");
-		if (opcode == NULL || opcode[0] == '#')
+		if (!opcode || opcode[0] == '#')
 			continue;
 		arg = strtok(NULL, " \t\n");
-		if (execute_opcode(&stack, opcode,
-				       	line_number,
-				       	arg) != 0)
+		if (execute_opcode(&stack, opcode
+					, line_number, arg) != 0)
 		{
-			free(line);
-			free_stack(&stack);
-			fclose(file);
+			handle_error(&stack, line, file);
 			return (EXIT_FAILURE);
 		}
 	}
 
 	free(line);
 	free_stack(&stack);
+	return (EXIT_SUCCESS);
+}
+
+/**
+ * main - Entry point of the Monty interpreter
+ * @argc: Argument count
+ * @argv: Argument vector
+ * Return: EXIT_SUCCESS on success, EXIT_FAILURE on error
+ */
+int main(int argc, char **argv)
+{
+	FILE *file;
+
+	if (argc != 2)
+	{
+		fprintf(stderr, "USAGE: monty file\n");
+		return (EXIT_FAILURE);
+	}
+
+	file = fopen(argv[1], "r");
+	if (!file)
+	{
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		return (EXIT_FAILURE);
+	}
+
+	if (process_file(file) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+
 	fclose(file);
 	return (EXIT_SUCCESS);
 }

@@ -41,4 +41,6 @@ int execute_opcode(stack_t **stack, char *opcode, unsigned int line_number, char
 int custom_getline(char **lineptr, size_t *n, FILE *stream);
 void free_stack(stack_t **stack);
 int is_integer(char *str);
+int process_file(FILE *file);
+void handle_error(stack_t **stack, char *line, FILE *file);
 #endif /* MONTY_H */
