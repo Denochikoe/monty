@@ -21,6 +21,7 @@ int execute_opcode(stack_t **stack
 		{"sub", sub},
 		{"div", _div},
 		{"mul", _mul},
+		{"mod", _mod},
 		{"nop", nop},
 		{NULL, NULL}
 	};
