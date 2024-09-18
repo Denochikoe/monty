@@ -75,8 +75,10 @@ int process_file(FILE *file)
 	while (custom_getline(&line, &len, file) != -1)
 	{
 		line_number++;
+		if (line[0] == '#' || line[0] == '\n')
+			continue;
 		opcode = strtok(line, " \t\n");
-		if (!opcode || opcode[0] == '#')
+		if (!opcode)
 			continue;
 		arg = strtok(NULL, " \t\n");
 		if (execute_opcode(&stack, opcode
